@@ -18,8 +18,8 @@ const VotePage = async () => {
   });
 
   return (
-    <div className="flex flex-col justify-center">
-      <h1>{`Welcome ${voter && voter.name}`}</h1>
+    <div className="flex flex-col justify-center text-center">
+      <h1 className="text-2xl ">{`Welcome ${voter && voter.name}`}</h1>
       <h1>Vote for your candidate</h1>
     </div>
   );
