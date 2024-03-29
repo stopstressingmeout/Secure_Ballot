@@ -23,9 +23,9 @@ export const POST = async (req: NextRequest) => {
 
   const otp = await redis.get(cookieData.NID);
 
-  if (!otp) {
-    return NextResponse.json({ message: "OTP has expired!" }, { status: 400 });
-  }
+  // if (!otp) {
+  //   return NextResponse.json({ message: "OTP has expired!" }, { status: 400 });
+  // }
 
   if (otp != body.otp) {
     return NextResponse.json({ message: "Invalid OTP!" }, { status: 400 });

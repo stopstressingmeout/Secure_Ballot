@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import { redis } from "@/lib/redis";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -15,7 +14,7 @@ const formSchema = z.object({
   }),
 });
 
-const NID_OTP_SESSION_TTL = 60;
+const NID_OTP_SESSION_TTL = 600;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -41,25 +40,20 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  console.log("Voter: ", voter);
-
   if (!voter) {
-    return NextResponse.json({ message: "Voter not found!" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Incorrect information. Voter not found!" },
+      { status: 400 }
+    );
   }
-
-  /*
- browser cookie => NID_OTP_SESSION : {NID: result.data.NID,phone:********##, TTL: 60}
-
- broweser redirect to otp verification page, browser will check if the cookie is present, if not, redirect to the form page
-
- redis => NID:OTP
-  */
 
   const otp = Math.floor(Math.random() * 1000);
 
   const hiddenPhone = voter.phone.replace(/(\d{3})\d*(\d{2})/, "$1******$2");
 
   await redis.set(voter.NID, otp, { ex: NID_OTP_SESSION_TTL });
+
+  cookies().delete("NID_AUTH_SESSION");
 
   cookies().set(
     "NID_OTP_SESSION",
@@ -74,8 +68,6 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
     }
   );
-
-  revalidatePath("/otp");
 
   return NextResponse.json({ message: "OTP has been sent!" }, { status: 200 });
 }
