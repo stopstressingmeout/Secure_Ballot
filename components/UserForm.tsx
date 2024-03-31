@@ -133,7 +133,7 @@ const UserForm = () => {
                 name={`father`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Father's Name</FormLabel>
+                    <FormLabel>Father&apos;s Name</FormLabel>
                     <FormControl>
                       <Input placeholder="John Doe" {...field} />
                     </FormControl>
@@ -146,7 +146,7 @@ const UserForm = () => {
                 name={`mother`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mother's Name</FormLabel>
+                    <FormLabel>Mother&apos;s Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Jane Doe" {...field} />
                     </FormControl>
