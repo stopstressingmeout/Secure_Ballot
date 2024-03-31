@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import TopLoaderContext from "@/context/TopLoaderContext";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,11 +27,14 @@ export default function RootLayout({
         }
       >
         <Navbar />
-        <TopLoaderContext>
-          <main className="flex-1 w-full max-w-4xl mx-auto p-10">
-            {children}
-          </main>
-        </TopLoaderContext>
+        <Suspense>
+          <TopLoaderContext>
+            <main className="flex-1 w-full max-w-4xl mx-auto p-10">
+              {children}
+            </main>
+          </TopLoaderContext>
+        </Suspense>
+
         <Toaster />
       </body>
     </html>
