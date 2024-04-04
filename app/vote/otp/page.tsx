@@ -16,8 +16,6 @@ const OTPPage = () => {
 
   const session = JSON.parse(cookie) as Session;
 
-  console.log("Session: ", session);
-
   return (
     <div className="text-center md:w-1/2 mx-auto flex flex-col justify-center items-center">
       <OtpForm session={session} />
