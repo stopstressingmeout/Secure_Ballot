@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJwtToken } from "./lib/auth";
+import { revalidatePath } from "next/cache";
+import { revalidate } from "./lib/actions";
 
 const AUTH_REQUIRED_PATHS = ["/vote"];
 const OTP_REQUIRED_PATHS = ["/vote/otp"];
@@ -14,8 +16,8 @@ export async function middleware(req: NextRequest) {
   const authCookie = cookies.get("NID_AUTH_SESSION");
 
   console.log("OTP Session: ", otpCookie);
-  console.log("Auth Token: ", authCookie);
-  console.log("Auth required: ", nextUrl.pathname);
+
+  // await revalidate();
 
   if (nextUrl.pathname == VERIFICATION_PATH && authCookie) {
     return NextResponse.redirect(new URL(VOTE_PATH, url));
