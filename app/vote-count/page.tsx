@@ -24,7 +24,7 @@ const mockData = [
         candidateId: 123456,
         candidateName: "Md. Hasanul Haq Inu",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 15000,
       },
       {
@@ -34,7 +34,7 @@ const mockData = [
         candidateId: 345678,
         candidateName: "Mirza Fakhrul Islam Alamgir",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 10000,
       },
       {
@@ -44,7 +44,7 @@ const mockData = [
         candidateId: 789012,
         candidateName: "Tanjim Ahmed Sohel Taj",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 1000,
       },
       {
@@ -54,7 +54,7 @@ const mockData = [
         candidateId: 890123,
         candidateName: "Rashed Khan Menon",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 500,
       },
     ],
@@ -71,7 +71,7 @@ const mockData = [
         candidateId: 456789,
         candidateName: "Zahid Ahsan Russell",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 25000,
       },
       {
@@ -81,7 +81,7 @@ const mockData = [
         candidateId: 678901,
         candidateName: "Muhammad Faizul Islam",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 15000,
       },
 
@@ -92,7 +92,7 @@ const mockData = [
         candidateId: 789012,
         candidateName: "Tanjim Ahmed Sohel Taj",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 5000,
       },
       {
@@ -102,7 +102,7 @@ const mockData = [
         candidateId: 890123,
         candidateName: "Rashed Khan Menon",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 5000,
       },
     ],
@@ -119,7 +119,7 @@ const mockData = [
         candidateId: 123456,
         candidateName: "Md. Hasanul Haq Inu",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 20000,
       },
       {
@@ -129,7 +129,7 @@ const mockData = [
         candidateId: 345678,
         candidateName: "Mirza Fakhrul Islam Alamgir",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 15000,
       },
       {
@@ -139,7 +139,7 @@ const mockData = [
         candidateId: 456789,
         candidateName: "Zahid Ahsan Russell",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 25000,
       },
       {
@@ -149,7 +149,7 @@ const mockData = [
         candidateId: 678901,
         candidateName: "Muhammad Faizul Islam",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 5000,
       },
       {
@@ -159,7 +159,7 @@ const mockData = [
         candidateId: 789012,
         candidateName: "Tanjim Ahmed Sohel Taj",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 5000,
       },
       {
@@ -169,7 +169,7 @@ const mockData = [
         candidateId: 890123,
         candidateName: "Rashed Khan Menon",
         candidateImage:
-          "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+          "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
         votes: 5000,
       },
     ],
@@ -182,8 +182,6 @@ const VoteCount = () => {
   const selectedConstituency = mockData.find(
     (e) => e.constituencyName === selectedConstituencyName
   );
-
-  console.log(selectedConstituency);
 
   return (
     <div className="flex flex-col items-center gap-5 container p-10">

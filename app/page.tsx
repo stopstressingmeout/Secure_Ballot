@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Home() {
   return (
     <div className="divide-border divide-y">
@@ -18,7 +16,7 @@ export default function Home() {
       </div>
 
       <div className="">
-        <div className=" container grid gap-4 px-4 py-8 text-center md:grid-cols-3 md:gap-10 md:px-6 lg:gap-12 lg:py-12 lg:px-8">
+        <div className=" container grid gap-5 px-4 py-8 text-center md:grid-cols-3 md:gap-10 md:px-6 lg:gap-12 lg:py-12 lg:px-8">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl/none">
               10,000,000
@@ -41,8 +39,8 @@ export default function Home() {
       </div>
 
       <div className=" py-12 md:py-16 ">
-        <div className="flex flex-col gap-4 md:gap-8 lg:gap-12 container">
-          <div className="mx-auto grid max-w-3xl items-start gap-4 px-4 sm:gap-8 md:px-6 lg:grid-cols-2">
+        <div className="flex flex-col gap-5 md:gap-8 lg:gap-12 container">
+          <div className="mx-auto grid max-w-3xl items-start gap-5 px-4 sm:gap-8 md:px-6 lg:grid-cols-2">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
                 How to Vote
@@ -73,7 +71,7 @@ export default function Home() {
               </ol>
             </div>
           </div>
-          <div className="mx-auto grid max-w-3xl items-start gap-4 px-4 sm:gap-8 md:px-6 lg:grid-cols-2">
+          <div className="mx-auto grid max-w-3xl items-start gap-5 px-4 sm:gap-8 md:px-6 lg:grid-cols-2">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
                 Frequently Asked Questions
