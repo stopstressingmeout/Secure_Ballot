@@ -3,9 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
-import TopLoaderContext from "@/context/TopLoaderContext";
-import { Suspense } from "react";
+
 import Footer from "@/components/Footer";
+import HolyLoader from "holy-loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,11 +28,8 @@ export default function RootLayout({
         }
       >
         <Navbar />
-        <Suspense>
-          <TopLoaderContext>
-            <main className="flex-1 w-full mx-auto">{children}</main>
-          </TopLoaderContext>
-        </Suspense>
+        <HolyLoader showSpinner={false} />
+        <main className="flex-1 w-full mx-auto">{children}</main>
 
         <Toaster />
         <Footer />
