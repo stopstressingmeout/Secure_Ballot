@@ -15,9 +15,8 @@ export async function middleware(req: NextRequest) {
   const otpCookie = cookies.get("NID_OTP_SESSION");
   const authCookie = cookies.get("NID_AUTH_SESSION");
 
-  console.log("OTP Session: ", otpCookie);
 
-  // await revalidate();
+  
 
   if (nextUrl.pathname == VERIFICATION_PATH && authCookie) {
     return NextResponse.redirect(new URL(VOTE_PATH, url));
