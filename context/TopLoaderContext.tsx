@@ -7,8 +7,9 @@ const TopLoaderContext = ({ children }: { children: React.ReactNode }) => {
       {children}
       <ProgressBar
         height="4px"
-        color="#fffd00"
-        options={{ showSpinner: true }}
+        color="#784af4"
+        delay={500}
+        options={{ showSpinner: false }}
       />
     </>
   );
