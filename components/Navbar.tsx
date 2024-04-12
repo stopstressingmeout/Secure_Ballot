@@ -1,5 +1,5 @@
 "use client";
-import { Loader2, LogOut, MenuIcon } from "lucide-react";
+import { Bell, Languages, Loader2, LogOut, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
@@ -14,24 +14,32 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useLocale, useTranslations } from "next-intl";
 
 const paths = [
   {
     path: "/",
-    label: "Home",
+    label: "home",
   },
   {
     path: "/about",
-    label: "About",
+    label: "about",
   },
   {
     path: "/vote-count",
-    label: "Vote Count",
+    label: "vote_count",
   },
 ];
 
 const Navbar = () => {
-  const pathname = usePathname();
+  const t = useTranslations("Navbar");
+
+  const curLocale = useLocale();
+
+  let pathname = usePathname();
+  pathname = pathname.replace(/\/(en|bn)(\/|$)/, "/");
+  console.log(pathname, curLocale);
+
   const router = useRouter();
   const [voterPresent, setVoterPresent] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -65,13 +73,36 @@ const Navbar = () => {
                   href={path.path}
                   key={path.path}
                 >
-                  {path.label}
+                  {t(path.label)}
                 </Link>
               );
             })}
           </div>
 
-          <div className="hidden items-center md:flex">
+          <div className="hidden items-center md:flex gap-5">
+            {curLocale === "en" ? (
+              <Link
+                href={`/bn${pathname}`}
+                className="-rotate-45 text-foreground/60 hover:text-foreground"
+              >
+                <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
+                <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
+              </Link>
+            ) : (
+              <Link
+                href={`/en${pathname}`}
+                className="-rotate-45 text-foreground/60 hover:text-foreground"
+              >
+                <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
+                <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
+              </Link>
+            )}
+            <Link
+              href="/notices"
+              className="hover:bg-accent p-2 rounded-md text-foreground/60"
+            >
+              <Bell />
+            </Link>
             {loading ? (
               <div className="flex justify-center items-center ">
                 <Loader2 className="w-6 h-6 animate-spin" />
@@ -79,7 +110,7 @@ const Navbar = () => {
             ) : voterPresent ? (
               <div className="flex justify-center gap-5">
                 <Button variant={"secondary"}>
-                  <Link href="/vote">Start Voting</Link>
+                  <Link href="/vote">{t("start_voting")}</Link>
                 </Button>
                 <Button
                   variant={"outline"}
@@ -93,7 +124,7 @@ const Navbar = () => {
               </div>
             ) : (
               <Button variant={"secondary"}>
-                <Link href="/vote/verification">Start Voting</Link>
+                <Link href="/vote/verification">{t("start_voting")}</Link>
               </Button>
             )}
           </div>
@@ -101,41 +132,65 @@ const Navbar = () => {
             <SheetTrigger>
               <MenuIcon className="w-8 h-8" />
             </SheetTrigger>
-
-            {loading ? (
-              <div className="flex justify-center items-center ">
-                <Loader2 className="w-6 h-6 animate-spin" />
-              </div>
-            ) : voterPresent ? (
-              <div className="flex justify-center gap-5">
-                <Button variant={"secondary"}>
-                  <Link href="/vote">Start Voting</Link>
-                </Button>
-                <Button
-                  variant={"outline"}
-                  onClick={async () => {
-                    await logOut();
-                    router.push("/");
-                  }}
+            <div className="flex justify-center items-center gap-5">
+              {curLocale === "en" ? (
+                <Link
+                  href={`/bn${pathname}`}
+                  className="-rotate-45 text-foreground/60 hover:text-foreground"
                 >
-                  <LogOut />
+                  <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
+                  <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
+                </Link>
+              ) : (
+                <Link
+                  href={`/en${pathname}`}
+                  className="-rotate-45 text-foreground/60 hover:text-foreground"
+                >
+                  <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
+                  <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
+                </Link>
+              )}
+              <Link
+                href="/notices"
+                className="hover:bg-accent p-2 rounded-md text-foreground/60"
+              >
+                <Bell />
+              </Link>
+              {loading ? (
+                <div className="flex justify-center items-center ">
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                </div>
+              ) : voterPresent ? (
+                <div className="flex justify-center gap-5">
+                  <Button variant={"secondary"}>
+                    <Link href="/vote">{t("start_voting")}</Link>
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    onClick={async () => {
+                      await logOut();
+                      router.push("/");
+                    }}
+                  >
+                    <LogOut />
+                  </Button>
+                </div>
+              ) : (
+                <Button variant={"secondary"}>
+                  <Link href="/vote/verification">{t("start_voting")}</Link>
                 </Button>
-              </div>
-            ) : (
-              <Button variant={"secondary"}>
-                <Link href="/vote/verification">Start Voting</Link>
-              </Button>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
         <SheetContent side={"left"}>
           <SheetHeader className="my-10">
             <SheetTitle className="text-5xl text-center">
-              Secure Ballot
+              {t("title")}
             </SheetTitle>
             <SheetDescription className="xl text-center">
-              A blockchain based voting system for national elections
+              {t("description")}
             </SheetDescription>
           </SheetHeader>
           <div className="flex mt-20 flex-col justify-center items-center gap-5">
@@ -151,7 +206,7 @@ const Navbar = () => {
                   href={path.path}
                   key={path.path}
                 >
-                  {path.label}
+                  {t(path.label)}
                 </Link>
               );
             })}
