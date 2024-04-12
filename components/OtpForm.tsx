@@ -59,11 +59,11 @@ const OtpForm = ({ session }: { session: Session }) => {
     }
   };
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="flex flex-col items-center space-y-1">
-        <CardTitle>OTP Verification</CardTitle>
+        <CardTitle className="uppercase">OTP Verification</CardTitle>
         <CardDescription>
-          Enter the OTP sent to {session?.phone} to verify your identity.
+          Enter the OTP sent to {session?.phone} to verify your identity
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -89,7 +89,7 @@ const OtpForm = ({ session }: { session: Session }) => {
         )}
       </CardContent>
       <CardFooter>
-        <Alert className="text-sm">
+        <Alert className="text-sm text-center">
           OTP is valid for 2 minutes. Please check your phone for the OTP.
         </Alert>
       </CardFooter>
