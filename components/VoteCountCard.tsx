@@ -59,7 +59,7 @@ const VoteCountCard = ({
     candidateId: 0,
     candidateName: "Others",
     candidateImage:
-      "https://www.pngitem.com/pimgs/m/421-4212617_person-placeholder-image-transparent-hd-png-download.png",
+      "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
     votes: otherPartiesJoinedTogether,
   });
 
@@ -145,7 +145,7 @@ const VoteCountCard = ({
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className="flex flex-row items-center justify-center gap-4 h-32">
+      <CardHeader className="flex flex-row items-center justify-center gap-5 h-32">
         <MapPin className="w-8 h-8" />
         <div className="grid text-center">
           <CardTitle className="text-3xl">{constituencyName}</CardTitle>
@@ -217,7 +217,7 @@ const VoteCountCard = ({
         </ResponsiveContainer>
       </div>
       <CardContent className="flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {sortedParties.map((party) => (
             <Card key={party.partyName}>
               <CardHeader>
