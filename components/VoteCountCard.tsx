@@ -219,7 +219,7 @@ const VoteCountCard = ({
       <CardContent className="flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {sortedParties.map((party) => (
-            <Card>
+            <Card key={party.partyName}>
               <CardHeader>
                 <CardTitle className="text-center mb-5 ">
                   {party.partyName}
