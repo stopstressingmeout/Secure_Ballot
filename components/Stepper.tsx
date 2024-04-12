@@ -90,7 +90,11 @@ const steps = [
 ];
 
 export default function CustomizedSteppers() {
-  const pathname = usePathname();
+  let pathname = usePathname();
+  pathname = pathname.replace(/\/(en|bn)\//, "/");
+
+  // console.log(pathname);
+
   const params = useSearchParams().get("success");
 
   let activeStep = steps.findIndex((step) => step.url === pathname);
