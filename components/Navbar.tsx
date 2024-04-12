@@ -53,7 +53,7 @@ const Navbar = () => {
     <nav className="w-full border-b border-border">
       <Sheet open={open} onOpenChange={setOpen}>
         <div className="container max-w-5xl  flex items-center justify-between">
-          <div className="hidden md:flex gap-4">
+          <div className="hidden md:flex gap-5">
             {paths.map((path) => {
               return (
                 <Link
@@ -77,7 +77,7 @@ const Navbar = () => {
                 <Loader2 className="w-6 h-6 animate-spin" />
               </div>
             ) : voterPresent ? (
-              <div className="flex justify-center gap-3">
+              <div className="flex justify-center gap-5">
                 <Button variant={"secondary"}>
                   <Link href="/vote">Start Voting</Link>
                 </Button>
@@ -107,7 +107,7 @@ const Navbar = () => {
                 <Loader2 className="w-6 h-6 animate-spin" />
               </div>
             ) : voterPresent ? (
-              <div className="flex justify-center gap-3">
+              <div className="flex justify-center gap-5">
                 <Button variant={"secondary"}>
                   <Link href="/vote">Start Voting</Link>
                 </Button>
@@ -138,7 +138,7 @@ const Navbar = () => {
               A blockchain based voting system for national elections
             </SheetDescription>
           </SheetHeader>
-          <div className="flex mt-20 flex-col justify-center items-center gap-4">
+          <div className="flex mt-20 flex-col justify-center items-center gap-5">
             {paths.map((path) => {
               return (
                 <Link
