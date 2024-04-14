@@ -21,7 +21,7 @@ const OTPPage = () => {
   return (
     <div>
       <h1>{`OTP has been sent to ${session.phone}`}</h1>
-      <OtpForm />
+      <OtpForm session={session} />
     </div>
   );
 };

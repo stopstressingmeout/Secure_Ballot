@@ -1,3 +1,4 @@
+import CastVote from "@/components/CastVote";
 import Error from "@/components/Error";
 import { verifyJwtToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
@@ -11,7 +12,7 @@ const VotePage = async () => {
     return <Error />;
   }
 
-  const voter = await prisma.voter.findUnique({
+  const voter = await prisma.decentralizedVoter.findUnique({
     where: {
       NID: tokenIsVerified.sub,
     },
@@ -19,8 +20,7 @@ const VotePage = async () => {
 
   return (
     <div className="flex flex-col justify-center text-center">
-      <h1 className="text-2xl ">{`Welcome ${voter && voter.name}`}</h1>
-      <h1>Vote for your candidate</h1>
+      {voter && !voter.hasVoted && <CastVote voter={voter} />}
     </div>
   );
 };

@@ -1,7 +1,17 @@
+import CustomizedSteppers from "@/components/Stepper";
+
 export default function VoteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return (
+    <div className="container p-10">
+      <section className="mb-10">
+        <CustomizedSteppers />
+      </section>
+
+      {children}
+    </div>
+  );
 }
