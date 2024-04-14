@@ -8,21 +8,21 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model VoterInput {
-  NID    String   @id
-  name   String
-  father String
-  mother String
-  dob    DateTime
+model Voter {
+  NID          String   @id
+  name         String
+  father       String
+  mother       String
+  dob          DateTime
+  phone        String
+  constituency String
+  email        String?
+  address      String?
 }
 
-model Voter {
-  NID     String   @id
-  name    String
-  father  String
-  mother  String
-  dob     DateTime
-  phone   String
-  email   String?
-  address String?
+model DecentralizedVoter {
+  NID          String  @id
+  name         String
+  constituency String
+  hasVoted     Boolean @default(false)
 }

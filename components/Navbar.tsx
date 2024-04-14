@@ -1,6 +1,7 @@
 "use client";
 import { Bell, Languages, Loader2, LogOut, MenuIcon } from "lucide-react";
-import Link from "next/link";
+// import Link from "next/link";
+
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/navigation";
 
 const paths = [
   {
@@ -81,21 +83,21 @@ const Navbar = () => {
 
           <div className="hidden items-center md:flex gap-5">
             {curLocale === "en" ? (
-              <Link
+              <a
                 href={`/bn${pathname}`}
                 className="-rotate-45 text-foreground/60 hover:text-foreground"
               >
                 <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
                 <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
-              </Link>
+              </a>
             ) : (
-              <Link
+              <a
                 href={`/en${pathname}`}
                 className="-rotate-45 text-foreground/60 hover:text-foreground"
               >
                 <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
                 <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
-              </Link>
+              </a>
             )}
             <Link
               href="/notices"
@@ -134,21 +136,21 @@ const Navbar = () => {
             </SheetTrigger>
             <div className="flex justify-center items-center gap-5">
               {curLocale === "en" ? (
-                <Link
+                <a
                   href={`/bn${pathname}`}
                   className="-rotate-45 text-foreground/60 hover:text-foreground"
                 >
                   <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
                   <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
-                </Link>
+                </a>
               ) : (
-                <Link
+                <a
                   href={`/en${pathname}`}
                   className="-rotate-45 text-foreground/60 hover:text-foreground"
                 >
                   <h1 className="rotate-45 font-light text-xl leading-5 ">A</h1>
                   <h1 className="rotate-45 font-light text-xl leading-5">অ</h1>
-                </Link>
+                </a>
               )}
               <Link
                 href="/notices"

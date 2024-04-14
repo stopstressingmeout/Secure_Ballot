@@ -52,9 +52,11 @@ export async function POST(req: NextRequest) {
 
   const hiddenPhone = voter.phone.replace(/(\d{3})\d*(\d{2})/, "$1******$2");
 
-  const {encryptedData,secret} = encrypt(otp.toString());
+  const { encryptedData, secret } = encrypt(otp.toString());
 
-  await redis.set(hashedKey(voter.NID,secret), encryptedData, { ex: NID_OTP_SESSION_TTL });
+  await redis.set(hashedKey(voter.NID, secret), encryptedData, {
+    ex: NID_OTP_SESSION_TTL,
+  });
 
   cookies().delete("NID_AUTH_SESSION");
 

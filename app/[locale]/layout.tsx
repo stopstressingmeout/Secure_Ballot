@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/Footer";
 import HolyLoader from "holy-loader";
 import { NextIntlClientProvider, useMessages } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"] });
 const tiro = Tiro_Bangla({ weight: "400", subsets: ["bengali"] });
@@ -17,6 +18,12 @@ export const metadata: Metadata = {
     "A blockchain based voting system that ensures secure and transparent elections",
 };
 
+const locales = ["en", "bn"];
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export default function RootLayout({
   children,
   params: { locale },
@@ -24,6 +31,9 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  // console.log("Locale: ", locale);
+  unstable_setRequestLocale(locale);
+
   const language = locale === "bn" ? tiro.className : inter.className;
 
   const messages = useMessages();

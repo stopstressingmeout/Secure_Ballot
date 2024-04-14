@@ -1,6 +1,10 @@
-import { useFormatter, useTranslations } from "next-intl";
+import { PageProps } from "@/lib/types";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 
-export default function Home() {
+export default function Home({ params: { locale } }: PageProps) {
+  unstable_setRequestLocale(locale);
+
   const t = useTranslations("Home");
   const format = useFormatter();
 
@@ -18,7 +22,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       <div className="">
         <div className=" container grid gap-5 px-4 py-8 text-center md:grid-cols-3 md:gap-10 md:px-6 lg:gap-12 lg:py-12 lg:px-8">
           <div className="space-y-2">
@@ -44,7 +47,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       <div className=" py-12 md:py-16 ">
         <div className="flex flex-col gap-5 md:gap-8 lg:gap-12 container">
           <div className="mx-auto grid max-w-3xl items-start gap-5 px-4 sm:gap-8 md:px-6 lg:grid-cols-2">
@@ -59,10 +61,10 @@ export default function Home() {
             <div className="space-y-4">
               <div className="list-decimal list-inside space-y-2">
                 {[1, 2, 3].map((i) => (
-                  <>
+                  <div key={i}>
                     <h1 className="font-semibold">{t(`step${i}_title`)}</h1>
                     <p>{t(`step${i}_description`)}</p>
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
