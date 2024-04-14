@@ -10,6 +10,7 @@ const TopLoaderContext = ({ children }: { children: React.ReactNode }) => {
         color="#784af4"
         delay={500}
         options={{ showSpinner: false }}
+
       />
     </>
   );
