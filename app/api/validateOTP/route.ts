@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 import { getJwtSecretKey } from "@/lib/auth";
+import { decrypt, hashedKey } from "@/lib/encryption";
+import prisma from "@/lib/prisma";
 
 const NID_AUTH_SESSION_TTL = 60 * 60;
 
@@ -21,15 +23,35 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "Invalid input!" }, { status: 400 });
   }
 
-  const otp = await redis.get(cookieData.NID);
+  const otp = await redis.get(hashedKey(cookieData.NID,cookieData.secret)) as string;
 
-  // if (!otp) {
-  //   return NextResponse.json({ message: "OTP has expired!" }, { status: 400 });
-  // }
+  if (!otp) {
+    return NextResponse.json({ message: "Invalid NID number!" }, { status: 400 });
+  }
 
-  if (otp != body.otp) {
+  const decryptedOtp = decrypt(otp, cookieData.secret);
+  
+  if (decryptedOtp != body.otp.toString()) {
     return NextResponse.json({ message: "Invalid OTP!" }, { status: 400 });
   }
+
+  const existingVoter = await prisma.decentralizedVoter.findUnique({
+    where: {
+      NID: cookieData.NID,
+    },
+  });
+
+  if(!existingVoter){
+    await prisma.decentralizedVoter.create({
+      data: {
+        NID: cookieData.NID,
+        name: cookieData.name,
+        constituency: cookieData.constituency,
+        hasVoted: false
+      },
+    });
+    }
+
 
   await redis.del(cookieData.NID);
 

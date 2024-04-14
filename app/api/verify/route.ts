@@ -1,3 +1,4 @@
+import { encrypt, hashedKey } from "@/lib/encryption";
 import prisma from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { cookies } from "next/headers";
@@ -47,19 +48,24 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const otp = Math.floor(Math.random() * 1000);
+  const otp = Math.floor(Math.random() * 100000);
 
   const hiddenPhone = voter.phone.replace(/(\d{3})\d*(\d{2})/, "$1******$2");
 
-  await redis.set(voter.NID, otp, { ex: NID_OTP_SESSION_TTL });
+  const {encryptedData,secret} = encrypt(otp.toString());
+
+  await redis.set(hashedKey(voter.NID,secret), encryptedData, { ex: NID_OTP_SESSION_TTL });
 
   cookies().delete("NID_AUTH_SESSION");
 
   cookies().set(
     "NID_OTP_SESSION",
     JSON.stringify({
-      NID: result.data.NID,
+      NID: voter.NID,
+      name: voter.name,
+      constituency: voter.constituency,
       phone: hiddenPhone,
+      secret,
       otp,
     }),
     {

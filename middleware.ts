@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJwtToken } from "./lib/auth";
+import { revalidatePath } from "next/cache";
+import { revalidate } from "./lib/actions";
+import createIntlMiddleware from "next-intl/middleware";
 
 const AUTH_REQUIRED_PATHS = ["/vote"];
 const OTP_REQUIRED_PATHS = ["/vote/otp"];
@@ -9,13 +12,11 @@ const VOTE_PATH = "/vote";
 const OTP_PATH = "/vote/otp";
 
 export async function middleware(req: NextRequest) {
+  const defaultLocale = req.headers.get("x-your-custom-locale") || "en";
+
   const { url, nextUrl, cookies } = req;
   const otpCookie = cookies.get("NID_OTP_SESSION");
   const authCookie = cookies.get("NID_AUTH_SESSION");
-
-  console.log("OTP Session: ", otpCookie);
-  console.log("Auth Token: ", authCookie);
-  console.log("Auth required: ", nextUrl.pathname);
 
   if (nextUrl.pathname == VERIFICATION_PATH && authCookie) {
     return NextResponse.redirect(new URL(VOTE_PATH, url));
@@ -39,8 +40,17 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  const response = handleI18nRouting(req);
+
+  response.headers.set("x-your-custom-locale", defaultLocale);
+
+  return response;
 }
+
+const handleI18nRouting = createIntlMiddleware({
+  locales: ["en", "bn"],
+  defaultLocale: "en",
+});
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
