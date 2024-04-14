@@ -23,14 +23,19 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "Invalid input!" }, { status: 400 });
   }
 
-  const otp = await redis.get(hashedKey(cookieData.NID,cookieData.secret)) as string;
+  const otp = (await redis.get(
+    hashedKey(cookieData.NID, cookieData.secret)
+  )) as string;
 
   if (!otp) {
-    return NextResponse.json({ message: "Invalid NID number!" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Invalid NID number!" },
+      { status: 400 }
+    );
   }
 
   const decryptedOtp = decrypt(otp, cookieData.secret);
-  
+
   if (decryptedOtp != body.otp.toString()) {
     return NextResponse.json({ message: "Invalid OTP!" }, { status: 400 });
   }
@@ -41,17 +46,16 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  if(!existingVoter){
+  if (!existingVoter) {
     await prisma.decentralizedVoter.create({
       data: {
         NID: cookieData.NID,
         name: cookieData.name,
         constituency: cookieData.constituency,
-        hasVoted: false
+        hasVoted: false,
       },
     });
-    }
-
+  }
 
   await redis.del(cookieData.NID);
 

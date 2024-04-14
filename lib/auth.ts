@@ -7,7 +7,6 @@ export function getJwtSecretKey() {
     throw new Error("JWT secret key is not defined!");
   }
   const encodedSecret = new TextEncoder().encode(secret);
-  console.log("Encoded secret: ", encodedSecret);
 
   return encodedSecret;
 }

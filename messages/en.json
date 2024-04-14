@@ -1,0 +1,71 @@
+{
+    "Index": {
+        "title": "Hello world!"
+    },
+    "Home": {
+        "title": "Secure Ballot",
+        "description": "A blockchain based voting system that ensures secure and transparent elections.",
+        "registered_voters": "Registered Voters",
+        "votes_cast": "Votes Cast",
+        "political_parties": "Political Parties",
+        "how_title": "How to Vote",
+        "how_description": "Voting in the decentralized system is easy and secure. Follow the steps below to cast your vote.",
+        "step1_title": "1. Access the Voting Portal",
+        "step1_description": "Click on 'Start Voting' to access the voting portal.",
+        "step2_title": "2. Verify Your Identity",
+        "step2_description": "Verify your identity by filling in your details and submitting your voter ID.",
+        "step3_title": "3. Cast Your Vote",
+        "step3_description": "Select your preferred candidate and submit your vote.",
+        "FAQ_title": "Frequently Asked Questions",
+        "FAQ_description": "Have questions about the voting process? Check out our FAQs below.",
+        "faq1_title": "How do I know my vote is secure?",
+        "faq1_description": "The blockchain technology ensures that your vote is secure and cannot be tampered with.",
+        "faq2_title": "How do I know my vote is anonymous?",
+        "faq2_description": "The blockchain technology ensures that your vote is anonymous and cannot be traced back to you.",
+        "faq3_title": "Can I change my vote after submitting?",
+        "faq3_description": "No, once you submit your vote, it is final and cannot be changed.",
+        "faq4_title": "How is my identity verified in the decentralized system?",
+        "faq4_description": "Your identity is verified using your voter ID and personal details."
+    },
+    "Navbar": {
+        "home": "Home",
+        "about": "About",
+        "start_voting": "Start Voting",
+        "vote_count": "Vote Count",
+        "title": "Secure Ballot",
+        "description": "A blockchain based voting system that ensures secure and transparent elections."
+    },
+    "Footer": {
+        "title": "Secure Ballot"
+    },
+    "Vote": {
+        "step1": "NID Verification",
+        "step2": "OTP Verification",
+        "step3": "Vote Casting",
+        "verification_title": "Verify Identity",
+        "verification_description": "Enter your information to confirm your identity",
+        "NID": "NID Number",
+        "name": "Full Name",
+        "dob": "Date of Birth",
+        "father": "Father's Name",
+        "mother": "Mother's Name",
+        "submit": "Submit",
+        "placeholder_name": "John Doe",
+        "placeholder_father": "Jason Doe",
+        "placeholder_mother": "Jane Doe",
+        "verification_warning": "Make sure the information is exactly as it appears on your NID card.",
+        "dob_error": "Your date of birth is required!",
+        "nid_error": "NID number is invalid!",
+        "name_error": "Your full name is required!",
+        "father_error": "Father's name is required!",
+        "mother_error": "Mother's name is required!",
+        "otp_title": "OTP VERIFICATION",
+        "otp_description": "Enter the OTP sent to your mobile number",
+        "verify_otp": "Verify OTP",
+        "otp_warning": "OTP is valid for 2 minutes. Please check your phone for the OTP.",
+        "please_wait": "Please wait..."
+    },
+    "About": {
+        "title": "About Secure Ballot"
+    }
+}

@@ -1,6 +1,8 @@
-import React from "react";
+import { PageProps } from "@/lib/types";
+import { unstable_setRequestLocale } from "next-intl/server";
 
-const NoticesPage = () => {
+const NoticesPage = ({ params: { locale } }: PageProps) => {
+  unstable_setRequestLocale(locale);
   return (
     <div className="flex justify-center items-center flex-col max-w-3xl w-full mx-auto p-5">
       <h1 className="text-3xl mb-10">Notices</h1>
