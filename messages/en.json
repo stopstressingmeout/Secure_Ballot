@@ -67,5 +67,13 @@
     },
     "About": {
         "title": "About Secure Ballot"
+    },
+    "Count": {
+        "title": "Live Vote Count",
+        "select_constituency": "Select Constituency",
+        "votes": "Votes",
+        "candidate_name": "Candidate Name",
+        "affidavit": "Affidavit",
+        "income_tax": "Income Tax Return"
     }
 }

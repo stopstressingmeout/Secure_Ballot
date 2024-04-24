@@ -66,6 +66,14 @@
         "please_wait": "অনুগ্রহ করে অপেক্ষা করুন..."
     },
     "About": {
-        "title": "About Secure Ballot"
+        "title": "সিকিউর ব্যালট সম্পর্কে"
+    },
+    "Count": {
+        "title": "লাইভ ভোট গণনা",
+        "select_constituency": "নির্বাচনী জেলা নির্বাচন করুন",
+        "votes": "ভোট",
+        "candidate_name": "প্রার্থীর নাম",
+        "affidavit": "জমানামা",
+        "income_tax": "আয়কর রিটার্ন"
     }
 }

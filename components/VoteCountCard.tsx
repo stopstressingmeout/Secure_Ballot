@@ -21,6 +21,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
+import { useFormatter, useTranslations } from "next-intl";
 
 type VoteCountProps = {
   constituencyName: string;
@@ -102,7 +103,7 @@ const VoteCountCard = ({
         dominantBaseline="central"
         className="font-bold"
       >
-        {`${(percent * 100).toFixed(0)}%`}
+        {`(${format.number(Math.round(percent * 100 * 100) / 100)}%)`}
       </text>
     );
   };
@@ -137,11 +138,14 @@ const VoteCountCard = ({
         dominantBaseline="central"
         className="flex flex-col z-10"
       >
-        {data[index].value} votes {"\n"}
-        {`(${(percent * 100).toFixed(0)}%)`}
+        {format.number(data[index].value)} {t("votes")} {"\n"}
+        {`(${format.number(Math.round(percent * 100 * 100) / 100)}%)`}
       </text>
     );
   };
+
+  const t = useTranslations("Count");
+  const format = useFormatter();
 
   return (
     <Card className="flex flex-col">
@@ -149,7 +153,9 @@ const VoteCountCard = ({
         <MapPin className="w-8 h-8" />
         <div className="grid text-center">
           <CardTitle className="text-3xl">{constituencyName}</CardTitle>
-          <CardDescription>{totalVotes} votes</CardDescription>
+          <CardDescription>
+            {format.number(totalVotes)} {t("votes")}
+          </CardDescription>
         </div>
       </CardHeader>
       <div className="my-5">
@@ -217,7 +223,7 @@ const VoteCountCard = ({
         </ResponsiveContainer>
       </div>
       <CardContent className="flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {sortedParties.map((party) => (
             <Card key={party.partyName}>
               <CardHeader>
@@ -245,7 +251,7 @@ const VoteCountCard = ({
               <CardContent className="text-center flex flex-col justify-center items-center ">
                 <div className="mb-2">
                   <h1 className="text-muted-foreground text-sm font-semibold">
-                    Candidate Name
+                    {t("candidate_name")}
                   </h1>
                   {party.candidateName}
                 </div>
@@ -254,22 +260,24 @@ const VoteCountCard = ({
                   className="text-muted-foreground hover:text-white p-0"
                 >
                   <ExternalLink className="mr-1" />
-                  Affidavit
+                  {t("affidavit")}
                 </Button>
                 <Button
                   variant={"link"}
                   className="text-muted-foreground hover:text-white  p-0"
                 >
                   <ExternalLink className="mr-1" />
-                  Income Tax Return
+                  {t("income_tax")}
                 </Button>
               </CardContent>
               <CardFooter className="text-centerflex flex-col justify-center items-center">
                 <div className="border border-accent-foreground py-3 px-10 relative animate-pulse rounded-lg ">
                   <h1 className=" text-sm font-semibold absolute z-10 -top-3 left-1/2 -translate-x-1/2 bg-background px-2">
-                    Votes
+                    {t("votes")}
                   </h1>
-                  <h1 className="text-accent-foreground">{party.votes}</h1>
+                  <h1 className="text-accent-foreground">
+                    {format.number(party.votes)}
+                  </h1>
                 </div>
               </CardFooter>
             </Card>
