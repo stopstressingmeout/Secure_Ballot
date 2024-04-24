@@ -56,11 +56,11 @@ const UserForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Christos Uster Biswas",
-      father: "Paul Biswas",
-      mother: "Ratna Roy",
-      NID: "6969696969",
-      dob: new Date("1999-08-24"),
+      name: "John Doe",
+      father: "Jason Doe",
+      mother: "Jane Doe",
+      NID: "1234567890",
+      dob: new Date("1990-01-01"),
     },
   });
 

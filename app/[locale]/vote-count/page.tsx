@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const mockData = [
@@ -177,6 +178,8 @@ const mockData = [
 ];
 
 const VoteCount = () => {
+  const t = useTranslations("Count");
+
   const [selectedConstituencyName, setSelectedConstituencyName] = useState("");
 
   const selectedConstituency = mockData.find(
@@ -185,14 +188,14 @@ const VoteCount = () => {
 
   return (
     <div className="flex flex-col items-center gap-5 container p-10">
-      <h2 className="text-5xl font-bold tracking-tighter">Live Vote Count</h2>
+      <h2 className="text-5xl font-bold tracking-tighter">{t("title")}</h2>
 
       <Select
         onValueChange={setSelectedConstituencyName}
         defaultValue={selectedConstituencyName}
       >
         <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Select a constituency" />
+          <SelectValue placeholder={`${t("select_constituency")}`} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

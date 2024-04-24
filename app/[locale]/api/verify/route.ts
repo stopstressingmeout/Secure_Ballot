@@ -4,6 +4,13 @@ import { redis } from "@/lib/redis";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import twilio from "twilio";
+
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSID = process.env.TWILIO_ACCOUNT_SID;
+const twilioNumber = process.env.TWILIO_NUMBER;
+const myNumber = process.env.MY_NUMBER;
+const client = twilio(accountSID, authToken);
 
 const formSchema = z.object({
   NID: z.string().length(10, "NID number is invalid!"),
@@ -59,6 +66,14 @@ export async function POST(req: NextRequest) {
   });
 
   cookies().delete("NID_AUTH_SESSION");
+
+  const messageStatus = await client.messages.create({
+    body: `Your OTP is ${otp}`,
+    from: twilioNumber,
+    to: myNumber as string,
+  });
+
+  console.log("Message: ", messageStatus.status);
 
   cookies().set(
     "NID_OTP_SESSION",
