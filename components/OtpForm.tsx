@@ -15,11 +15,17 @@ import { useRouter } from "next-nprogress-bar";
 
 import { useToast } from "./ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 type Session = {
   NID: string;
   phone: string;
 } | null;
+
+const t = useTranslations("Home");
+  const format = useFormatter();
+
 
 const OtpForm = ({ session }: { session: Session }) => {
   const router = useRouter();

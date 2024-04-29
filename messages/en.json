@@ -75,5 +75,13 @@
         "candidate_name": "Candidate Name",
         "affidavit": "Affidavit",
         "income_tax": "Income Tax Return"
-    }
+    },
+    "Notices": {
+        "title": "Notices",
+        "notice1_title": "Your Voice Matters: General Election Information",
+        "notice1_description": "The general election is scheduled for 25th December 2029. Exercise your fundamental right to vote. Your voice matters. Choose from various voting methods, including in-person, early, or mail-in voting. Research candidates' platforms. Visit our election website for info. Polling places will adhere to strict health protocols. Stay informed through official channels and local media. Your vote shapes our democracy's future. Let's make it count! Thank you for your civic engagement.",
+        "notice2_title": "Protecting Democracy: Report Election Irregularities",
+        "notice2_description": "Protect our democracy by reporting election irregularities. If you witness voter intimidation, suppression, or fraud, report it immediately. Call our election hotline or visit our website to submit a report. Your identity will remain confidential. Together, we can safeguard the integrity of our elections. Thank you for your vigilance and commitment to democracy."
+
+    }      
 }

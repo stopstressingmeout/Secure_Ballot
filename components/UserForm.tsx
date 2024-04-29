@@ -37,18 +37,23 @@ import { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { useToast } from "./ui/use-toast";
 import { Alert } from "./ui/alert";
-
-const formSchema = z.object({
-  NID: z.string().length(10, "NID number is invalid!"),
-  name: z.string().min(1, "Name cannot be empty!").max(50),
-  father: z.string().min(1, "Name cannot be empty!").max(50),
-  mother: z.string().min(1, "Name cannot be empty!").max(50),
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
-});
+import { useFormatter, useTranslations } from "next-intl";
 
 const UserForm = () => {
+  const t = useTranslations("Vote");
+
+  const formatter = useFormatter();
+
+  const formSchema = z.object({
+    NID: z.string().length(10, t("nid_error")),
+    name: z.string().min(1, t("name_error")).max(50),
+    father: z.string().min(1, t("father_error")).max(50),
+    mother: z.string().min(1, t("mother_error")).max(50),
+    dob: z.date({
+      required_error: t("dob_error"),
+    }),
+  });
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -96,10 +101,10 @@ const UserForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader className="flex flex-col items-center space-y-1">
-            <CardTitle className="uppercase">Verify Identity</CardTitle>
-            <CardDescription>
-              Enter your information to confirm your identity
-            </CardDescription>
+            <CardTitle className="uppercase">
+              {t("verification_title")}
+            </CardTitle>
+            <CardDescription>{t("verification_description")} </CardDescription>
           </CardHeader>
           <CardContent className=" grid grid-cols-1 md:grid-cols-2 gap-8 ">
             <FormField
@@ -107,9 +112,14 @@ const UserForm = () => {
               name={`NID`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>NID Number</FormLabel>
+                  <FormLabel>{t("NID")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="1234567890" {...field} />
+                    <Input
+                      placeholder={formatter.number(1234567890, {
+                        useGrouping: false,
+                      })}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,9 +130,9 @@ const UserForm = () => {
               name={`name`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>{t("name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder={t("placeholder_name")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -133,9 +143,9 @@ const UserForm = () => {
               name={`father`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Father&apos;s Name</FormLabel>
+                  <FormLabel>{t("father")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Jason Doe" {...field} />
+                    <Input placeholder={t("placeholder_father")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,9 +156,9 @@ const UserForm = () => {
               name={`mother`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mother&apos;s Name</FormLabel>
+                  <FormLabel>{t("mother")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Jane Doe" {...field} />
+                    <Input placeholder={t("placeholder_mother")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -159,7 +169,7 @@ const UserForm = () => {
               name={`dob`}
               render={({ field }) => (
                 <FormItem className="flex flex-col w-full">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>{t("dob")}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -200,11 +210,11 @@ const UserForm = () => {
             {loading ? (
               <Button className="w-full" disabled>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
+                {t("please_wait")}
               </Button>
             ) : (
               <Button className="w-full" type="submit">
-                Submit
+                {t("submit")}
               </Button>
             )}
           </CardFooter>
@@ -212,7 +222,7 @@ const UserForm = () => {
       </Form>
       <CardFooter>
         <Alert className="text-sm text-center">
-          Make sure the information is exactly as it appears on your NID card.
+          {t("verification_warning")}
         </Alert>
       </CardFooter>
     </Card>
