@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract DecentralizedVoting {
+contract SecureBallot {
     struct Candidate {
         uint256 candidateNumber;
         string candidateName;
