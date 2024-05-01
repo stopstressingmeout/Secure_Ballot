@@ -33,7 +33,7 @@ const AboutPage = ({ params: { locale } }: PageProps) => {
           <div className="border border-border aspect-square h-64"></div>
         </div>
       </div>
-      <div className="mt-10 w-full">
+      {/* <div className="mt-10 w-full">
         <h1 className="text-3xl mb-5 ">Our Team</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="flex flex-col items-center">
@@ -52,7 +52,7 @@ const AboutPage = ({ params: { locale } }: PageProps) => {
             <h1 className="text-lg">Role</h1>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

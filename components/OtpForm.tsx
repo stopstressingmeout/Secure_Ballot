@@ -15,19 +15,19 @@ import { useRouter } from "next-nprogress-bar";
 
 import { useToast } from "./ui/use-toast";
 import { Loader2 } from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { useFormatter, useTranslations } from "next-intl";
 
 type Session = {
   NID: string;
   phone: string;
 } | null;
 
-const t = useTranslations("Home");
-  const format = useFormatter();
 
 
 const OtpForm = ({ session }: { session: Session }) => {
+  const t = useTranslations("Otp");
+
+  const formatter = useFormatter();
   const router = useRouter();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -67,9 +67,9 @@ const OtpForm = ({ session }: { session: Session }) => {
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="flex flex-col items-center space-y-1">
-        <CardTitle className="uppercase">OTP Verification</CardTitle>
+        <CardTitle className="uppercase">{t("title")}</CardTitle>
         <CardDescription>
-          Enter the OTP sent to {session?.phone} to verify your identity
+          {t("description1")}{session?.phone}{t("description2")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -86,17 +86,17 @@ const OtpForm = ({ session }: { session: Session }) => {
         {loading ? (
           <Button className="w-full" disabled>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
+            {t("wait")}
           </Button>
         ) : (
           <Button className="w-full" onClick={handleOTP}>
-            Verify OTP
+            {t("verify_otp")}
           </Button>
         )}
       </CardContent>
       <CardFooter>
         <Alert className="text-sm text-center">
-          OTP is valid for 2 minutes. Please check your phone for the OTP.
+          {t("alert")}
         </Alert>
       </CardFooter>
     </Card>
