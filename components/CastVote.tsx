@@ -2,6 +2,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import CandidateSelection from "./CandidateSelection";
 import { Vote } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+
 
 type Voter = {
   name: string;
@@ -176,6 +178,9 @@ const mockData = [
 ];
 
 const CastVote = ({ voter }: { voter: Voter }) => {
+  const t = useTranslations("CastVote");
+
+  const formatter = useFormatter();
   console.log(voter);
 
   const constituency = mockData.find(
@@ -184,19 +189,19 @@ const CastVote = ({ voter }: { voter: Voter }) => {
 
   return (
     <div>
-      <h1 className="text-4xl">Welcome, {voter.name}</h1>
+      <h1 className="text-4xl">{t("title")} {voter.name}</h1>
       <h1 className="font-light my-3">
         Constituency: {constituency?.constituencyName}
       </h1>
       <h1 className="font-light ">
-        Total Candidates: {constituency?.parties.length}
+        {t("candidates")}: {formatter.number(constituency?.parties.length || 0)}
       </h1>
 
       <Alert className="text-left w-fit mx-auto my-5 animate-pulse">
         <Vote className="h-4 w-4" />
-        <AlertTitle>Heads up!</AlertTitle>
+        <AlertTitle>{t("alert_message")}</AlertTitle>
         <AlertDescription>
-          Choose your vote carefully. Once you have voted, you cannot change it.
+        {t("alert_description")}
         </AlertDescription>
       </Alert>
 

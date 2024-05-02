@@ -12,6 +12,7 @@ import { StepIconProps } from "@mui/material/StepIcon";
 import { Check } from "lucide-react";
 import { url } from "inspector";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {useTranslations} from "next-intl";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -74,29 +75,31 @@ function QontoStepIcon(props: StepIconProps) {
   );
 }
 
-const steps = [
-  {
-    title: "NID Verification",
-    url: "/vote/verification",
-  },
-  {
-    title: "OTP Verification",
-    url: "/vote/otp",
-  },
-  {
-    title: "Casting Vote",
-    url: "/vote",
-  },
-];
+
 
 export default function CustomizedSteppers() {
   let pathname = usePathname();
+  const t = useTranslations("Stepper");
   pathname = pathname.replace(/\/(en|bn)\//, "/");
 
   // console.log(pathname);
 
   const params = useSearchParams().get("success");
-
+  const steps = [
+    {
+      title: t("title1"),
+      url: "/vote/verification",
+    },
+    {
+      title: t("title2"),
+      url: "/vote/otp",
+    },
+    {
+      title: t("title3"),
+      url: "/vote",
+    },
+  ];
+  
   let activeStep = steps.findIndex((step) => step.url === pathname);
   if (params === "true") {
     activeStep = steps.length;

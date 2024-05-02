@@ -91,5 +91,28 @@
     "alert": "OTP is valid for 2 minutes. Please check your phone for the OTP.",
     "wait": "Please wait",
     "verify_otp":"Verify OTP"
-     }
+     },
+
+     "CastVote": {
+        "title": "Welcome ,",
+        "alert_message": "Heads up!",
+        "alert_description": "Choose your vote carefully. Once you have voted, you cannot change it.",
+        "candidates": "Total Candidates"
+         },
+        
+             "Stepper": {
+                "title1": "NID Verification",
+                "title2": "OTP Verification",
+                "title3": "Casting Vote"
+                 },
+
+                 "CandidateSelection": {
+                    "toast_message": "Something went wrong. Please try again!",
+                    "vote_confirm": "Confirm Your Vote",
+                    "cancel": "Cancel",
+                    "confirm": "Confirm Vote",
+                    "vote":"Vote"
+                     }                 
+
+
 }

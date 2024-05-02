@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { useToast } from "./ui/use-toast";
+import { useFormatter, useTranslations } from "next-intl";
 
 type Voter = {
   name: string;
@@ -61,6 +62,7 @@ const CandidateSelection = ({
   voter,
   constituency,
 }: CandidateSelectionProps) => {
+  const t = useTranslations("CandidateSelection");
   const { toast } = useToast();
 
   const [selectedCandidate, setSelectedCandidate] =
@@ -69,7 +71,7 @@ const CandidateSelection = ({
   const handleVote = async (candidateId: ConfirmVote | null) => {
     if (candidateId === null) {
       toast({
-        title: "Something went wrong. Please try again!",
+        title: t("toast_message"),
         variant: "destructive",
       });
       return;
@@ -98,7 +100,7 @@ const CandidateSelection = ({
         <AlertDialogContent className="flex flex-col justify-center items-center gap-4 text-center">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-center">
-              Confirm Your Vote
+              {t("vote_confirm")}
             </AlertDialogTitle>
             <AlertDialogDescription>
               <CardHeader>
@@ -120,9 +122,9 @@ const CandidateSelection = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={() => handleVote(selectedCandidate)}>
-              Confirm Vote
+              {t("confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -160,7 +162,7 @@ const CandidateSelection = ({
                     });
                   }}
                 >
-                  Vote
+                  {t("vote")}
                 </Button>
               </AlertDialogTrigger>
             </CardFooter>
