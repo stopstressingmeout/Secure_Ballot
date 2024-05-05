@@ -26,3 +26,29 @@ model DecentralizedVoter {
   constituency String
   hasVoted     Boolean @default(false)
 }
+
+model Election {
+  id            String   @id
+  name          String
+  startDate     DateTime
+  endDate       DateTime
+}
+
+model Constituency {
+  id        String @id
+  name      String @unique
+  votes    Int
+  winner   String?
+  candidates Candidate[] @relation("belongingConstituency")
+}
+
+model Candidate {
+  id            String @id
+  name          String
+  party         String 
+  partyLogo     String
+  votes         Int
+  image         String
+  belongingConstituency  Constituency @relation("belongingConstituency", fields: [belongingConstituencyId], references: [id])
+  belongingConstituencyId String
+}
