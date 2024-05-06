@@ -26,7 +26,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -64,12 +63,18 @@ const AdminPage = () => {
   const { toast } = useToast();
 
   const [elections, setElections] = useState<Election[]>([]);
+  const [addingConstituency, setAddingConstituency] = useState<boolean>(false);
+  const [addingCandidate, setAddingCandidate] = useState<boolean>(false);
   const [constituencyName, setConstituencyName] = useState<string>("");
   const [constituencies, setConstituencies] = useState<Constituency[]>([]);
   const [candidateName, setCandidateName] = useState<string>("");
   const [candidateParty, setCandidateParty] = useState<string>("");
-  const [candidateImage, setCandidateImage] = useState<string>("");
-  const [partyLogo, setPartyLogo] = useState<string>("");
+  const [candidateImage, setCandidateImage] = useState<string>(
+    "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png"
+  );
+  const [partyLogo, setPartyLogo] = useState<string>(
+    "https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+  );
   const [selectedConstituency, setSelectedConstituency] = useState<string>("");
 
   useEffect(() => {
@@ -78,13 +83,16 @@ const AdminPage = () => {
   }, []);
 
   const handleConstituencyAdding = () => {
+    setAddingConstituency(true);
     if (!constituencyName) {
+      setAddingCandidate(false);
       toast({
         title: "Please fill the constituency name",
         variant: "destructive",
       });
       return;
     }
+
     addConstituency(constituencyName).then((data) => {
       if (data.status === "success") {
         setConstituencyName("");
@@ -93,17 +101,24 @@ const AdminPage = () => {
         toast({
           title: data.message,
         });
+
+        setAddingConstituency(false);
       } else {
         toast({
           title: data.message,
           variant: "destructive",
         });
+
+        setAddingConstituency(false);
       }
     });
   };
 
   const handleCandidateAdding = () => {
+    setAddingCandidate(true);
     if (!selectedConstituency) {
+      setAddingCandidate(false);
+
       toast({
         title: "Please select a constituency",
         variant: "destructive",
@@ -111,6 +126,7 @@ const AdminPage = () => {
       return;
     }
     if (!candidateName || !candidateParty) {
+      setAddingCandidate(false);
       toast({
         title: "Please fill all the fields",
         variant: "destructive",
@@ -137,9 +153,8 @@ const AdminPage = () => {
       if (data.status === "success") {
         setCandidateName("");
         setCandidateParty("");
-        setCandidateImage("");
         setSelectedConstituency("");
-        setPartyLogo("");
+
         getConstituencies().then((data) => setConstituencies(data));
         toast({
           title: data.message,
@@ -150,6 +165,7 @@ const AdminPage = () => {
           variant: "destructive",
         });
       }
+      setAddingCandidate(false);
     });
   };
   return (
@@ -170,7 +186,12 @@ const AdminPage = () => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button onClick={handleConstituencyAdding}>Add</Button>
+            <Button
+              disabled={addingConstituency}
+              onClick={handleConstituencyAdding}
+            >
+              {addingConstituency ? "Adding..." : "Add"}
+            </Button>
           </CardFooter>
         </Card>
         <Card className="max-w-lg md:mx-0 mx-auto md:mr-auto w-full">
@@ -222,7 +243,9 @@ const AdminPage = () => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button onClick={handleCandidateAdding}>Add</Button>
+            <Button disabled={addingCandidate} onClick={handleCandidateAdding}>
+              {addingCandidate ? "Adding..." : "Add"}
+            </Button>
           </CardFooter>
         </Card>
       </div>

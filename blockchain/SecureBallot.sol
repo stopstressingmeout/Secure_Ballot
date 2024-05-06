@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
 contract SecureBallot {
     struct Candidate {
-        uint256 candidateNumber;
+        string candidateId;
         string candidateName;
         string partyAffiliation;
         string imageURL;
@@ -13,28 +12,28 @@ contract SecureBallot {
     }
 
     struct Constituency {
+        string constituencyId;
         string constituencyName;
-        mapping(uint256 => Candidate) candidates;
-        mapping(uint256 => bool) candidateExists; 
-        uint256[] candidateNumbers;
+        mapping(string => Candidate) candidates;
+        mapping(string => bool) candidateExists; 
+        string[] candidateIds;
         uint256 totalVotes;
         string winner;
     }
 
     mapping(address => bool) public hasVoted;
-
     string public purpose;
-    address owner;
+    address public owner;
     uint256 public totalVotes;
     uint256 public startTime;
     uint256 public endTime;
-    
+    string[] public constituencyIds;
     mapping(string => Constituency) public constituencies;
-    string[] public constituencyNumbers;  //No use
 
-    event CandidateAdded(string constituencyName, uint256 candidateNumber, string candidateName);
-    event Voted(string constituencyName, address voter, uint256 candidateNumber);
-    event VotingEnded(string constituencyName, uint256 winner, string party, string winnerName);
+    event CandidateAdded(string constituencyId, string candidateId, string candidateName, string partyAffiliation);
+    event Voted(string constituencyId, address indexed voter, string candidateId);
+    event VotingEnded(string constituencyId, string winnerId, string party, string winnerName);
+    event VotingPeriodSet(uint256 startTime, uint256 endTime);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can perform this action");
@@ -57,103 +56,126 @@ contract SecureBallot {
     constructor(string memory _name) {
         purpose = _name;
         owner = msg.sender;
-        totalVotes = 0;
-        startTime = block.timestamp;
-        endTime = block.timestamp + 1 days;
+        totalVotes=0;
+    }
+
+    function addConstituency(
+        string memory _constituencyId,
+        string memory _constituencyName
+    ) public onlyOwner {
+        require(bytes(constituencies[_constituencyId].constituencyName).length == 0, "Constituency ID already exists");
+
+        Constituency storage newConstituency = constituencies[_constituencyId];
+        newConstituency.constituencyId = _constituencyId;
+        newConstituency.constituencyName = _constituencyName;
+        constituencyIds.push(_constituencyId);
     }
 
     function addCandidate(
-        string memory _constituencyName,
+        string memory _constituencyId,
+        string memory _candidateId,
         string memory _candidateName,
-        uint256 _candidateNumber,
         string memory _partyAffiliation,
         string memory _imageURL
     ) public onlyOwner {
-        Constituency storage constituency = constituencies[_constituencyName];
+        Constituency storage constituency = constituencies[_constituencyId];
 
         require(
-            !constituency.candidateExists[_candidateNumber],
+            !constituency.candidateExists[_candidateId],
             "Candidate is already registered in this constituency"
         );
 
-        constituency.candidates[_candidateNumber] = Candidate(_candidateNumber,_candidateName, _partyAffiliation, _imageURL, 0, true);
-        constituency.candidateNumbers.push(_candidateNumber);
-        constituency.candidateExists[_candidateNumber] = true;
+        constituency.candidates[_candidateId] = Candidate(_candidateId, _candidateName, _partyAffiliation, _imageURL, 0, true);
+        constituency.candidateIds.push(_candidateId);
+        constituency.candidateExists[_candidateId] = true;
 
-        emit CandidateAdded(_constituencyName, _candidateNumber, _candidateName);
+        emit CandidateAdded(_constituencyId, _candidateId, _candidateName, _partyAffiliation);
     }
 
-    function vote(string memory _constituencyName, uint256 _candidateNumber) public onlyDuringVotingPeriod {
-        Constituency storage constituency = constituencies[_constituencyName];
-
+    function vote(string memory _constituencyId, string memory _candidateId) public onlyDuringVotingPeriod {
         require(!hasVoted[msg.sender], "You have already voted");
 
+        Constituency storage constituency = constituencies[_constituencyId];
+
         require(
-            constituency.candidateExists[_candidateNumber],
+            constituency.candidateExists[_candidateId],
             "Candidate does not exist in this constituency"
         );
 
-        constituency.candidates[_candidateNumber].votes++;
+        constituency.candidates[_candidateId].votes++;
         totalVotes++;
         constituency.totalVotes++;
         hasVoted[msg.sender] = true;
 
-        emit Voted(_constituencyName, msg.sender, _candidateNumber);
+        emit Voted(_constituencyId, msg.sender, _candidateId);
     }
 
-    function getConstituencyCandidates(string memory _constituencyName)
+    function endVoting() public onlyOwner onlyAfterVotingPeriod {
+        for (uint256 i = 0; i < constituencyIds.length; i++) {
+            string memory constituencyId = constituencyIds[i];
+            Constituency storage constituency = constituencies[constituencyId];
+            uint256 maxVotes = 0;
+            string memory winnerId;
+
+            for (uint256 j = 0; j < constituency.candidateIds.length; j++) {
+                string memory candidateId = constituency.candidateIds[j];
+                if (constituency.candidates[candidateId].votes > maxVotes) {
+                    maxVotes = constituency.candidates[candidateId].votes;
+                    winnerId = candidateId;
+                }
+            }
+
+            constituency.candidates[winnerId].isRegistered = false; // Mark winner as not registered to prevent further voting
+            constituency.winner = constituency.candidates[winnerId].candidateName;
+            string memory winnerParty = constituency.candidates[winnerId].partyAffiliation;
+
+            emit VotingEnded(
+                constituencyId,
+                winnerId,
+                winnerParty,
+                constituency.candidates[winnerId].candidateName
+            );
+        }
+    }
+
+    function setVotingPeriod(uint256 _startTime, uint256 _endTime) public onlyOwner {
+        require(_startTime < _endTime, "Invalid voting period");
+        startTime = _startTime;
+        endTime = _endTime;
+        emit VotingPeriodSet(startTime, endTime);
+    }
+
+
+    function getConstituencyCandidates(string memory _constituencyId)
         public
         view
         returns (
-            uint256[] memory,
+            string[] memory,
             string[] memory,
             string[] memory,
             uint256[] memory
         )
     {
-        Constituency storage constituency = constituencies[_constituencyName];
+        Constituency storage constituency = constituencies[_constituencyId];
 
-        uint256 candidateCount = constituency.candidateNumbers.length;
-        uint256[] memory candidateNumbers = new uint256[](candidateCount);
+        uint256 candidateCount = constituency.candidateIds.length;
+        string[] memory candidateIds = new string[](candidateCount);
         string[] memory candidateNames = new string[](candidateCount);
         string[] memory partyAffiliations = new string[](candidateCount);
         uint256[] memory votes = new uint256[](candidateCount);
 
         for (uint256 i = 0; i < candidateCount; i++) {
-            uint256 candidateNumber = constituency.candidateNumbers[i];
-            candidateNumbers[i] = candidateNumber;
-            candidateNames[i] = constituency.candidates[candidateNumber].candidateName;
-            partyAffiliations[i] = constituency.candidates[candidateNumber].partyAffiliation;
-            votes[i] = constituency.candidates[candidateNumber].votes;
+            string memory candidateId = constituency.candidateIds[i];
+            candidateIds[i] = candidateId;
+            candidateNames[i] = constituency.candidates[candidateId].candidateName;
+            partyAffiliations[i] = constituency.candidates[candidateId].partyAffiliation;
+            votes[i] = constituency.candidates[candidateId].votes;
         }
 
-        return (candidateNumbers, candidateNames, partyAffiliations, votes);
+        return (candidateIds, candidateNames, partyAffiliations, votes);
     }
 
-    function endVoting(string memory _constituencyName) public onlyOwner onlyAfterVotingPeriod {
-        Constituency storage constituency = constituencies[_constituencyName];
-
-        uint256 maxVotes = 0;
-        uint winner;
-
-        for (uint256 i = 0; i < constituency.candidateNumbers.length; i++) {
-            uint256 candidateNumber = constituency.candidateNumbers[i];
-            if (constituency.candidates[candidateNumber].votes > maxVotes) {
-                maxVotes = constituency.candidates[candidateNumber].votes;
-                winner = candidateNumber;
-            }
-        }
-
-        constituency.candidates[winner].isRegistered = false; // Mark winner as not registered to prevent further voting
-        constituency.winner = constituency.candidates[winner].candidateName;
-        string memory winnerParty = constituency.candidates[winner].partyAffiliation;
-
-        emit VotingEnded(
-            _constituencyName,
-            winner,
-            winnerParty,
-            constituency.candidates[winner].candidateName
-        );
+    function retrieve() public view returns (uint256){
+        return totalVotes;
     }
 }
-

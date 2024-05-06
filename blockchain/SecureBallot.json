@@ -16,19 +16,25 @@
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "constituencyName",
+				"name": "constituencyId",
 				"type": "string"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "candidateNumber",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "candidateId",
+				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
 				"name": "candidateName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "partyAffiliation",
 				"type": "string"
 			}
 		],
@@ -41,20 +47,20 @@
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "constituencyName",
+				"name": "constituencyId",
 				"type": "string"
 			},
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "address",
 				"name": "voter",
 				"type": "address"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "candidateNumber",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "candidateId",
+				"type": "string"
 			}
 		],
 		"name": "Voted",
@@ -66,14 +72,14 @@
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "constituencyName",
+				"name": "constituencyId",
 				"type": "string"
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "winner",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "winnerId",
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -92,21 +98,40 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "startTime",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "VotingPeriodSet",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_constituencyName",
+				"name": "_constituencyId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_candidateId",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
 				"name": "_candidateName",
 				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_candidateNumber",
-				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -128,12 +153,35 @@
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "_constituencyId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_constituencyName",
+				"type": "string"
+			}
+		],
+		"name": "addConstituency",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "",
 				"type": "string"
 			}
 		],
 		"name": "constituencies",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "constituencyId",
+				"type": "string"
+			},
 			{
 				"internalType": "string",
 				"name": "constituencyName",
@@ -161,7 +209,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "constituencyNumbers",
+		"name": "constituencyIds",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -186,13 +234,7 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_constituencyName",
-				"type": "string"
-			}
-		],
+		"inputs": [],
 		"name": "endVoting",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -202,16 +244,16 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_constituencyName",
+				"name": "_constituencyId",
 				"type": "string"
 			}
 		],
 		"name": "getConstituencyCandidates",
 		"outputs": [
 			{
-				"internalType": "uint256[]",
+				"internalType": "string[]",
 				"name": "",
-				"type": "uint256[]"
+				"type": "string[]"
 			},
 			{
 				"internalType": "string[]",
@@ -253,6 +295,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "purpose",
 		"outputs": [
 			{
@@ -262,6 +317,37 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "retrieve",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "setVotingPeriod",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -294,13 +380,13 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_constituencyName",
+				"name": "_constituencyId",
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_candidateNumber",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_candidateId",
+				"type": "string"
 			}
 		],
 		"name": "vote",

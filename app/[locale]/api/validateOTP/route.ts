@@ -40,22 +40,22 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "Invalid OTP!" }, { status: 400 });
   }
 
-  const existingVoter = await prisma.decentralizedVoter.findUnique({
+  const existingVoter = await prisma.voter.findUnique({
     where: {
       NID: cookieData.NID,
     },
   });
 
-  if (!existingVoter) {
-    await prisma.decentralizedVoter.create({
-      data: {
-        NID: cookieData.NID,
-        name: cookieData.name,
-        constituency: cookieData.constituency,
-        hasVoted: false,
-      },
-    });
-  }
+  // if (!existingVoter) {
+  //   await prisma.voter.create({
+  //     data: {
+  //       NID: cookieData.NID,
+  //       name: cookieData.name,
+  //       constituency: cookieData.constituency,
+  //       hasVoted: false,
+  //     },
+  //   });
+  // }
 
   await redis.del(cookieData.NID);
 

@@ -23,6 +23,7 @@ import {
 import { useState } from "react";
 import { useToast } from "./ui/use-toast";
 import { useFormatter, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 type Voter = {
   name: string;
@@ -32,15 +33,15 @@ type Voter = {
 };
 
 type Constituency = {
-  constituencyName: string;
-  division: string;
-  totalVotes: number;
-  parties: {
-    partyName: string;
-    logoUrl: string;
-    candidateId: number;
-    candidateName: string;
-    candidateImage: string;
+  id: string;
+  name: string;
+  votes: number;
+  candidates: {
+    party: string;
+    partyLogo: string;
+    id: string;
+    name: string;
+    image: string;
     votes: number;
   }[];
 };
@@ -51,22 +52,28 @@ type CandidateSelectionProps = {
 };
 
 type ConfirmVote = {
-  candidateId: number;
+  candidateId: string;
   constituencyName: string;
   candidateName: string;
   candidateImage: string;
   candidateParty: string;
+  constituencyId: string;
 };
 
 const CandidateSelection = ({
   voter,
   constituency,
 }: CandidateSelectionProps) => {
+  const router = useRouter();
+  console.log(voter, constituency);
+
   const t = useTranslations("CandidateSelection");
   const { toast } = useToast();
 
   const [selectedCandidate, setSelectedCandidate] =
     useState<ConfirmVote | null>(null);
+
+  const [voting, setVoting] = useState<boolean>(false);
 
   const handleVote = async (candidateId: ConfirmVote | null) => {
     if (candidateId === null) {
@@ -76,6 +83,7 @@ const CandidateSelection = ({
       });
       return;
     }
+    setVoting(true);
     const response = await fetch("/api/confirmVote", {
       method: "POST",
       headers: {
@@ -83,17 +91,24 @@ const CandidateSelection = ({
       },
       body: JSON.stringify({
         candidateId,
-        constituencyName: constituency.constituencyName,
+        constituencyName: constituency.name,
         NID: voter.NID,
+        constituencyId: constituency.id,
       }),
     });
 
     if (response.status === 200) {
-      alert("You have successfully cast your vote!");
+      setVoting(false);
+      router.refresh();
     } else {
+      setVoting(false);
       alert("Something went wrong! Please try again.");
     }
   };
+
+  if (voting) {
+    return <div className="text-center text-3xl animate-ping">loading...</div>;
+  }
   return (
     <AlertDialog>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10 w-full max-w-5xl mx-auto">
@@ -129,24 +144,21 @@ const CandidateSelection = ({
           </AlertDialogFooter>
         </AlertDialogContent>
 
-        {constituency.parties.map((party, index) => (
+        {constituency.candidates.map((party, index) => (
           <Card key={index}>
             <CardHeader>
               <div className="flex justify-center items-center gap-5">
                 <Avatar className="rounded-full">
-                  <AvatarImage src={party.logoUrl} alt={party.partyName} />
+                  <AvatarImage src={party.partyLogo} alt={party.party} />
                 </Avatar>
                 <Avatar className="rounded-full">
-                  <AvatarImage
-                    src={party.candidateImage}
-                    alt={party.candidateName}
-                  />
+                  <AvatarImage src={party.image} alt={party.name} />
                 </Avatar>
               </div>
             </CardHeader>
             <CardContent>
-              <CardTitle>{party.candidateName}</CardTitle>
-              <CardDescription>{party.partyName}</CardDescription>
+              <CardTitle>{party.name}</CardTitle>
+              <CardDescription>{party.party}</CardDescription>
             </CardContent>
             <CardFooter className="flex justify-center items-center">
               <AlertDialogTrigger asChild>
@@ -154,11 +166,12 @@ const CandidateSelection = ({
                   variant="outline"
                   onClick={() => {
                     setSelectedCandidate({
-                      candidateId: party.candidateId,
-                      constituencyName: constituency.constituencyName,
-                      candidateName: party.candidateName,
-                      candidateImage: party.candidateImage,
-                      candidateParty: party.partyName,
+                      candidateId: party.id,
+                      constituencyName: constituency.name,
+                      candidateName: party.name,
+                      candidateImage: party.image,
+                      candidateParty: party.party,
+                      constituencyId: constituency.id,
                     });
                   }}
                 >

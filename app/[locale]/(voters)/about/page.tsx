@@ -1,8 +1,6 @@
 import { PageProps } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
-import Image from "next/image";
-import React from "react";
 
 const AboutPage = ({ params: { locale } }: PageProps) => {
   unstable_setRequestLocale(locale);
@@ -14,9 +12,7 @@ const AboutPage = ({ params: { locale } }: PageProps) => {
       <div className="flex gap-5">
         <div>
           <h1 className="text-3xl mb-5">{t("title")}</h1>
-          <h1 className="font-light">
-            {t("description")}
-          </h1>
+          <h1 className="font-light">{t("description")}</h1>
         </div>
         <div className="md:flex justify-center items-center hidden">
           <div className="border border-border aspect-square h-64"></div>

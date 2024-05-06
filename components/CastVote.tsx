@@ -1,9 +1,11 @@
+"use client";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import CandidateSelection from "./CandidateSelection";
 import { Vote } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-
+import { getMyConstituency } from "@/lib/actions";
+import { useEffect, useState } from "react";
 
 type Voter = {
   name: string;
@@ -178,31 +180,42 @@ const mockData = [
 ];
 
 const CastVote = ({ voter }: { voter: Voter }) => {
+  const [constituency, setConstituency] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchConstituency = async () => {
+      const data = await getMyConstituency(voter.constituency);
+      setConstituency(data);
+      console.log(data);
+    };
+
+    fetchConstituency();
+  }, []);
+
   const t = useTranslations("CastVote");
 
   const formatter = useFormatter();
   console.log(voter);
 
-  const constituency = mockData.find(
-    (data) => data.constituencyName === voter.constituency
-  );
+  if (!constituency) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1 className="text-4xl">{t("title")} {voter.name}</h1>
+      <h1 className="text-4xl">
+        {t("title")} {voter.name}
+      </h1>
       <h1 className="font-light my-3">
         Constituency: {constituency?.constituencyName}
       </h1>
       <h1 className="font-light ">
-        {t("candidates")}: {formatter.number(constituency?.parties.length || 0)}
+        {t("candidates")}:{" "}
+        {formatter.number(constituency?.candidates?.length || 0)}
       </h1>
 
       <Alert className="text-left w-fit mx-auto my-5 animate-pulse">
         <Vote className="h-4 w-4" />
         <AlertTitle>{t("alert_message")}</AlertTitle>
-        <AlertDescription>
-        {t("alert_description")}
-        </AlertDescription>
+        <AlertDescription>{t("alert_description")}</AlertDescription>
       </Alert>
 
       {constituency && (

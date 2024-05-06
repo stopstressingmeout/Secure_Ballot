@@ -27,11 +27,11 @@ type VoteCountProps = {
   constituencyName: string;
   totalVotes: number;
   parties: {
-    partyName: string;
-    logoUrl: string;
-    candidateId: number;
-    candidateName: string;
-    candidateImage: string;
+    party: string;
+    partyLogo: string;
+    id: string;
+    name: string;
+    image: string;
     votes: number;
   }[];
 };
@@ -55,18 +55,18 @@ const VoteCountCard = ({
     .reduce((acc, party) => acc + party.votes, 0);
 
   topParties.push({
-    partyName: "Others",
-    logoUrl: "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
-    candidateId: 0,
-    candidateName: "Others",
-    candidateImage:
+    party: "Others",
+    partyLogo: "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
+    id: "others",
+    name: "Others",
+    image:
       "https://png.pngtree.com/png-vector/20220607/ourmid/pngtree-person-gray-photo-placeholder-man-in-t-shirt-on-gray-background-png-image_4853791.png",
     votes: otherPartiesJoinedTogether,
   });
 
   const data = topParties.map((party) => ({
     value: party.votes,
-    label: party.partyName,
+    label: party.party,
   }));
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -225,24 +225,21 @@ const VoteCountCard = ({
       <CardContent className="flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {sortedParties.map((party) => (
-            <Card key={party.partyName}>
+            <Card key={party.id}>
               <CardHeader>
                 <CardTitle className="text-center mb-5 ">
-                  {party.partyName}
+                  {party.party}
                 </CardTitle>
                 <div className="grid grid-cols-2 gap-6 w-full">
                   <div className="flex justify-end">
                     <Avatar>
-                      <AvatarImage src={party.logoUrl} alt={party.partyName} />
+                      <AvatarImage src={party.partyLogo} alt={party.party} />
                       <AvatarFallback>Logo</AvatarFallback>
                     </Avatar>
                   </div>
                   <div className="flex justify-start">
                     <Avatar>
-                      <AvatarImage
-                        src={party.candidateImage}
-                        alt={party.candidateName}
-                      />
+                      <AvatarImage src={party.image} alt={party.name} />
                       <AvatarFallback>Logo</AvatarFallback>
                     </Avatar>
                   </div>
@@ -253,7 +250,7 @@ const VoteCountCard = ({
                   <h1 className="text-muted-foreground text-sm font-semibold">
                     {t("candidate_name")}
                   </h1>
-                  {party.candidateName}
+                  {party.name}
                 </div>
                 <Button
                   variant={"link"}

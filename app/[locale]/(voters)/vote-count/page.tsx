@@ -9,8 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getConstituencies } from "@/lib/actions";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const mockData = [
   {
@@ -177,14 +178,41 @@ const mockData = [
   },
 ];
 
+type Constituency = {
+  id: string;
+  name: string;
+  votes: number;
+  candidates: {
+    party: string;
+    partyLogo: string;
+    id: string;
+    name: string;
+    image: string;
+    votes: number;
+  }[];
+};
+
 const VoteCount = () => {
   const t = useTranslations("Count");
 
+  const [constituencies, setConstituencies] = useState<Constituency[] | null>(
+    null
+  );
+
   const [selectedConstituencyName, setSelectedConstituencyName] = useState("");
 
-  const selectedConstituency = mockData.find(
-    (e) => e.constituencyName === selectedConstituencyName
+  const selectedConstituency = constituencies?.find(
+    (e) => e.name === selectedConstituencyName
   );
+
+  useEffect(() => {
+    getConstituencies().then((data) => {
+      setConstituencies(data);
+    });
+  }, []);
+
+  if (!constituencies)
+    return <h1 className="text-center mx-auto text-3xl my-10">Loading...</h1>;
 
   return (
     <div className="flex flex-col items-center gap-5 container p-10">
@@ -198,44 +226,21 @@ const VoteCount = () => {
           <SelectValue placeholder={`${t("select_constituency")}`} />
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Dhaka</SelectLabel>
-            {mockData.map((data) => {
-              if (data.division === "Dhaka") {
-                return (
-                  <SelectItem
-                    key={data.constituencyName}
-                    value={data.constituencyName}
-                  >
-                    {data.constituencyName}
-                  </SelectItem>
-                );
-              }
-            })}
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Chattogram</SelectLabel>
-            {mockData.map((data) => {
-              if (data.division === "Chattogram") {
-                return (
-                  <SelectItem
-                    key={data.constituencyName}
-                    value={data.constituencyName}
-                  >
-                    {data.constituencyName}
-                  </SelectItem>
-                );
-              }
-            })}
-          </SelectGroup>
+          {constituencies.map((data) => {
+            return (
+              <SelectItem key={data.id} value={data.name}>
+                {data.name}
+              </SelectItem>
+            );
+          })}
         </SelectContent>
       </Select>
 
       {selectedConstituency && (
         <VoteCountCard
           constituencyName={selectedConstituencyName}
-          totalVotes={selectedConstituency.totalVotes}
-          parties={selectedConstituency.parties}
+          totalVotes={selectedConstituency.votes}
+          parties={selectedConstituency.candidates}
         />
       )}
     </div>
