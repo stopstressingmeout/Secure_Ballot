@@ -61,6 +61,10 @@ export const generateId = () => {
   return "id" + Math.random().toString(16).slice(2);
 };
 
+export const hexToNormal = (hex: string) => {
+  return hex.slice(2);
+};
+
 export const addConstituency = async (name: string) => {
   try {
     const constituency = await prisma.constituency.findUnique({
@@ -119,6 +123,80 @@ export const getConstituencies = async () => {
     },
   });
   return constituencies;
+};
+
+export const getVoters = async () => {
+  const voters = await prisma.voter.findMany();
+  return voters;
+};
+
+export const addVoter = async (
+  NID: string,
+  name: string,
+  father: string,
+  mother: string,
+  dob: string,
+  phone: string,
+  constituency: string,
+  email: string,
+  address: string
+) => {
+  try {
+    const voter = await prisma.voter.findUnique({
+      where: {
+        NID,
+      },
+    });
+    if (voter) {
+      return {
+        status: "error",
+        message: "Voter already exists",
+      };
+    }
+
+    const newWallet = ethers.Wallet.createRandom();
+    console.log("New wallet:", newWallet);
+
+    const contractAddress = await getContractAddress();
+    const contractABI = await getABI();
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      provider
+    );
+    const contractWithSigner = contract.connect(signer);
+    const tx = await contractWithSigner.addAddress(newWallet.address);
+    await tx.wait();
+
+    console.log(tx);
+
+    await prisma.voter.create({
+      data: {
+        NID,
+        name,
+        father,
+        mother,
+        dob: new Date(dob),
+        phone,
+        constituency,
+        email,
+        address,
+        walletAddress: newWallet.address,
+      },
+    });
+
+    revalidatePath("/admin");
+    return {
+      status: "success",
+      message: "Voter added successfully",
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      message: "An error occurred",
+      data: null,
+    };
+  }
 };
 
 export const addCandidate = async (
@@ -243,18 +321,20 @@ export const fetchFromContract = async () => {
 export const makeVote = async (
   candidateId: string,
   constituencyId: string,
-  userKey: string
+  walletAddress: string
 ) => {
-  const voteSigner = new ethers.Wallet(userKey, provider);
-
   const contractAddress = await getContractAddress();
   const contractABI = await getABI();
 
   const contract = new ethers.Contract(contractAddress, contractABI, provider);
-  const contractWithSigner = contract.connect(voteSigner);
+  const contractWithSigner = contract.connect(signer);
 
   try {
-    const tx = await contractWithSigner.vote(constituencyId, candidateId);
+    const tx = await contractWithSigner.vote(
+      constituencyId,
+      candidateId,
+      walletAddress
+    );
     await tx.wait();
     return {
       status: "success",

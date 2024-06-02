@@ -26,7 +26,7 @@ async function deploy() {
   try {
     const txReceipt = await deployer.send({
       from: wallet[0].address,
-      gas: "500000",
+      gas: "900000",
       gasPrice: "0",
     });
 
@@ -36,7 +36,7 @@ async function deploy() {
     writeStream.write(txReceipt.options.address);
     writeStream.end();
   } catch (error) {
-    console.log("Found contract address:", error.receipt.contractAddress);
+    console.log("Found contract address:", error);
     const writeStream = fs.createWriteStream("contractAddress.txt");
     writeStream.write(error.receipt.contractAddress);
     writeStream.end();

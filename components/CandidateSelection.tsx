@@ -107,7 +107,7 @@ const CandidateSelection = ({
   };
 
   if (voting) {
-    return <div className="text-center text-3xl animate-ping">loading...</div>;
+    return <div className="text-center text-3xl animate-pulse">loading...</div>;
   }
   return (
     <AlertDialog>

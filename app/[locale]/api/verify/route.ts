@@ -44,7 +44,6 @@ export async function POST(req: NextRequest) {
       name: result.data.name,
       father: result.data.father,
       mother: result.data.mother,
-      dob: result.data.dob,
     },
   });
 

@@ -204,9 +204,7 @@ const CastVote = ({ voter }: { voter: Voter }) => {
       <h1 className="text-4xl">
         {t("title")} {voter.name}
       </h1>
-      <h1 className="font-light my-3">
-        Constituency: {constituency?.constituencyName}
-      </h1>
+      <h1 className="font-light my-3">Constituency: {constituency?.name}</h1>
       <h1 className="font-light ">
         {t("candidates")}:{" "}
         {formatter.number(constituency?.candidates?.length || 0)}

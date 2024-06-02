@@ -28,7 +28,11 @@ contract SecureBallot {
     uint256 public startTime;
     uint256 public endTime;
     string[] public constituencyIds;
+
     mapping(string => Constituency) public constituencies;
+
+    mapping(address => bool) public permittedAddresses;
+
 
     event CandidateAdded(string constituencyId, string candidateId, string candidateName, string partyAffiliation);
     event Voted(string constituencyId, address indexed voter, string candidateId);
@@ -58,6 +62,11 @@ contract SecureBallot {
         owner = msg.sender;
         totalVotes=0;
     }
+
+    function addAddress(address addr) public onlyOwner {
+        permittedAddresses[addr] = true;
+    }
+
 
     function addConstituency(
         string memory _constituencyId,
@@ -92,8 +101,11 @@ contract SecureBallot {
         emit CandidateAdded(_constituencyId, _candidateId, _candidateName, _partyAffiliation);
     }
 
-    function vote(string memory _constituencyId, string memory _candidateId) public onlyDuringVotingPeriod {
-        require(!hasVoted[msg.sender], "You have already voted");
+    function vote(string memory _constituencyId, string memory _candidateId, address addr) public onlyDuringVotingPeriod {
+
+require(permittedAddresses[addr], "You are not allowed to vote");
+
+        require(!hasVoted[addr], "You have already voted");
 
         Constituency storage constituency = constituencies[_constituencyId];
 
@@ -105,9 +117,9 @@ contract SecureBallot {
         constituency.candidates[_candidateId].votes++;
         totalVotes++;
         constituency.totalVotes++;
-        hasVoted[msg.sender] = true;
+        hasVoted[addr] = true;
 
-        emit Voted(_constituencyId, msg.sender, _candidateId);
+        emit Voted(_constituencyId, addr, _candidateId);
     }
 
     function endVoting() public onlyOwner onlyAfterVotingPeriod {

@@ -16,7 +16,7 @@ model Voter {
   dob          DateTime
   phone        String
   constituency String
-  privateKey   String
+  walletAddress   String
   hasVoted     Boolean  @default(false)
   email        String?
   address      String?

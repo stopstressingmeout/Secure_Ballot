@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest) => {
   const blockchainVoteResponse = await makeVote(
     body.candidateId.candidateId,
     body.constituencyId,
-    voter?.privateKey
+    voter?.walletAddress
   );
 
   if (blockchainVoteResponse.status === "error") {
